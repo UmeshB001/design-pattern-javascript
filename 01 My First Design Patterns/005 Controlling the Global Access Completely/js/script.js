@@ -1,8 +1,8 @@
-//See how we treat private and public members differently
-//Ensure private members can't intract wih public ones
-//Add complexity to our core structure 
+//Use the Module Concept to make everything private
+//Conditionally add element to the global scope
+//Send things from the global scope into our Maga Module
 
-
+(function(win,doc,$){
     var chatModule = (function(){
         var _leadself = 'Me: ',
         _leadcomputer = "PC: ",
@@ -51,8 +51,12 @@
     
     
     
-    $(document).ready(function(){
+    $(doc).ready(function(){
     chatModule.talk("this is great");
     chatModule.replayYesNo();
     chatModule.saySassyStuff();
     });
+    if(!win.chatModule) win.chatModule =chatModule;
+    })(window,document,jQuery);
+    console.log(window.chatModule);
+
