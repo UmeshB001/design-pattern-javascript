@@ -10,7 +10,7 @@ Prototype: specify the kinds of objects to create using a prototypical instance,
 Singleton: ensure a class has only one instance, and provide a global point of access to it.
 
 
-##Structural Patterns
+## Structural Patterns -
 These concern class and object composition. They use inheritance to compose interfaces and define ways to compose objects to obtain new functionality.
 
 Adapter: allows classes with incompatible interfaces to work together by wrapping its own interface around that of an already existing class.
@@ -22,7 +22,7 @@ Flyweight: reduces the cost of creating and manipulating a large number of simil
 Proxy: provides a placeholder for another object to control access, reduce cost, and reduce complexity.
 
 
-##Behavioral Patterns
+## Behavioral Patterns -
 Most of these design patterns are specifically concerned with communication between objects.
 
 Chain of responsibility: delegates commands to a chain of processing objects.
