@@ -1,7 +1,6 @@
 # JS Design Pattern
 
-
-# Creational Patterns
+# Creational Patterns -
  Creational patterns are ones that create objects for you, rather than having you instantiate objects directly. This gives your   program more flexibility in deciding which objects need to be created for a given case.
 
 #Abstract factory: provide an interface for creating families of related or dependent objects without specifying their concrete classes.
