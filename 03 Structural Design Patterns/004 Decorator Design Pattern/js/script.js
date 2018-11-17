@@ -188,18 +188,21 @@
 		});
 
 		$(document).keypress(function(e){
-			if(e.key==='a'){
-				var circle = cg.create(Math.floor(Math.random()*600),
-															Math.floor(Math.random()*600),
-															"blue");
+			if(e.key==='q'){
+				var circle = cg.create(Math.floor(Math.random()*600),Math.floor(Math.random()*600),"blue");
 				
 				cg.add(circle);
+				
 			}else if(e.key==='t'){
 				cg.tint('black');
-			}else if(e.key==='ArrowRight'){
+			}else if(e.key==='d'){
 				cg.move("+=5px","+=0px");
-			}else if(e.key==='ArrowLeft'){
+			}else if(e.key==='a'){
 				cg.move("-=5px","+=0px");
+			}else if(e.key==='w'){
+				cg.move("+=0px","-=5px");
+			}else if(e.key==='s'){
+				cg.move("+=0px","+=5px");
 			}
 			
 		});
