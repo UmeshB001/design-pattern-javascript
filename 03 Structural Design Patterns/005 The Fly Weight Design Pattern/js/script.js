@@ -1,5 +1,5 @@
-//Add Features to specific items
-//Add features without creating a subclass or changing the original interface/constructor
+ //Reduce memory uasge in large objects
+//Reduce size of multiple used objects by extracting/reducing properties and methods
 
 (function(win, $){
 	function clone(src,out){
@@ -8,7 +8,9 @@
 		}
 	}
 	function Circle(){
+		
 		this.item = $('<div class="circle"></div>');
+		
 	}
 	Circle.prototype.color = function(clr){
 		this.item.css('background', clr);
@@ -21,12 +23,35 @@
 
 	Circle.prototype.get = function(){
 		return this.item;
-	}
+	};
+
+	Circle.prototype.getID = function(){
+		return this.id;
+	};
+
+	Circle.prototype.setID = function(id){
+		this.id= id;
+	};
 
 	function Rect(){
 		this.item = $('<div class="rect"></div>');
 	}
 	clone(Circle, Rect);
+
+	function binder(scope, fun){
+		return function(){
+			return fun.apply(scope,arguments);
+		};
+	}
+
+	function shapeFacade(shp){
+		return {
+			color:binder(shp,shp.color),
+			move:binder(shp,shp.move),
+			getID:binder(shp,shp.getID)
+
+		};
+	}
 
 	function selfDestructDecorator(obj){
 		obj.item.click(function(){
@@ -111,6 +136,13 @@
 		}
 	};
 
+	function flyWeightFader(item){
+		console.log(item[0], item.hasClass('circle'))
+		if(item.hasClass('circle')){
+			item.fadeTo(.5,item.css('opacity')*.5);
+		}
+	}
+
 
 	var CircleGeneratorSingleton = (function(){
 		var instance;
@@ -134,7 +166,10 @@
 			function create(left, top,type){
 				var circle = _sf.create(type);
 				circle.move(left, top);
-				return circle;
+				circle.setID(_aCircle.length);
+				_aCircle.push(circle);
+
+				return shapeFacade(circle);
 			}
 
 			function tint(clr){
@@ -146,8 +181,8 @@
 			}
 
 			function add(circle){
-				_stage.add(circle.get());
-				_aCircle.push(circle);
+				_stage.add(_aCircle[circle.getID()].get());
+				
 			}
 
 			function index(){
@@ -184,8 +219,10 @@
 			var circle = cg.create(e.pageX-25, e.pageY-25,"red");
 
 			cg.add(circle);
-				
+
+			flyWeightFader($(e.target));
 		});
+
 
 		$(document).keypress(function(e){
 			if(e.key==='q'){
