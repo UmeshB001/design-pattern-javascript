@@ -1,8 +1,6 @@
- //See how Façade simplifies interfaces to reduce the API footprint
-// Check out how it is a great way to remove API elements you want to protect
-// see how it helps you to control application features/access
-
-
+//check out how facade broke our application
+//create a way to unfacade
+//make our application work
 (function(win, $){
 	function clone(src,out){
 		for(var attr in src.prototype){
@@ -27,6 +25,14 @@
 		return this.item;
 	};
 
+	Circle.prototype.getID = function(){
+		return this.id;
+	};
+
+	Circle.prototype.setID = function(id){
+		this.id= id;
+	};
+
 	function Rect(){
 		this.item = $('<div class="rect"></div>');
 	}
@@ -39,6 +45,9 @@
 			},
 			move:function(x,y){
 				shp.move(x,y);
+			},
+			getID:function(){
+				return shp.getID();
 			}
 
 		};
@@ -157,6 +166,9 @@
 			function create(left, top,type){
 				var circle = _sf.create(type);
 				circle.move(left, top);
+				circle.setID(_aCircle.length);
+				_aCircle.push(circle);
+
 				return shapeFacade(circle);
 			}
 
@@ -169,8 +181,8 @@
 			}
 
 			function add(circle){
-				_stage.add(circle.get());
-				_aCircle.push(circle);
+				_stage.add(_aCircle[circle.getID()].get());
+				
 			}
 
 			function index(){
