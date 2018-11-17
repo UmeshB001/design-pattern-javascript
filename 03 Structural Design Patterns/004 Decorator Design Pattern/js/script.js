@@ -2,17 +2,14 @@
 //Add features without creating a subclass or changing the original interface/constructor
 
 (function(win, $){
-	
 	function clone(src,out){
 		for(var attr in src.prototype){
 			out.prototype[attr] = src.prototype[attr];
 		}
 	}
-
 	function Circle(){
 		this.item = $('<div class="circle"></div>');
 	}
-
 	Circle.prototype.color = function(clr){
 		this.item.css('background', clr);
 	}
@@ -30,6 +27,15 @@
 		this.item = $('<div class="rect"></div>');
 	}
 	clone(Circle, Rect);
+
+	function selfDestructDecorator(obj){
+		obj.item.click(function(){
+			obj.kill();
+		});
+		obj.kill = function(){
+			obj.item.remove();
+		};
+	}
 
 
 	function RedCircleBuilder(){
@@ -57,7 +63,7 @@
 		var rect = new Rect();
 				rect.color("yellow");
 				rect.move(40,40);
-
+				selfDestructDecorator(rect);
 		this.item.get().append(rect.get());
 	}; 
 	BlueCircleBuilder.prototype.get = function() {
@@ -104,7 +110,8 @@
 			this.a[item][act].apply(this.a[item],args);
 		}
 	};
-	
+
+
 	var CircleGeneratorSingleton = (function(){
 		var instance;
 
@@ -181,7 +188,7 @@
 		});
 
 		$(document).keypress(function(e){
-			if(e.key==='q'){
+			if(e.key==='a'){
 				var circle = cg.create(Math.floor(Math.random()*600),
 															Math.floor(Math.random()*600),
 															"blue");
@@ -189,14 +196,10 @@
 				cg.add(circle);
 			}else if(e.key==='t'){
 				cg.tint('black');
-			}else if(e.key==='d'){
+			}else if(e.key==='ArrowRight'){
 				cg.move("+=5px","+=0px");
-			}else if(e.key==='a'){
+			}else if(e.key==='ArrowLeft'){
 				cg.move("-=5px","+=0px");
-			}else if(e.key==='w'){
-				cg.move("+=0px","-=5px");
-			}else if(e.key==='s'){
-				cg.move("+=0px","+=5px");
 			}
 			
 		});
