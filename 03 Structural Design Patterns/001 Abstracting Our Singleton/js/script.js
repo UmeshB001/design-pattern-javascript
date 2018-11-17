@@ -1,3 +1,6 @@
+//Understand the key to making flexible design - Abstraction 
+//Learn why not everything needs to be planned in advance
+//Modularly update componant to fit changes
 (function(win, $){
 	function clone(src,out){
 		for(var attr in src.prototype){
@@ -58,7 +61,7 @@
 	};
 	
 
-	CircleFactory = function(){
+	ShapeFactory = function(){
 			this.types = {};
 			this.create = function(type){
 				return new this.types[type]().get();
@@ -77,17 +80,26 @@
 
 		function init(){
 			var _aCircle = [],
-					_stage = $('.advert'),
-					_cf = new CircleFactory();
-					_cf.register('red', RedCircleBuilder);
-					_cf.register('blue', BlueCircleBuilder);
+                    //_stage = $('.advert'),
+					_stage,
+					_sf = new ShapeFactory();
+					
 
 			function _position(circle, left, top){
 				circle.move(left, top);
-			}
+            }
+            
+            function registerShape(name,cls){
+                _sf.register(name, cls);
+                //_sf.register('red', RedCircleBuilder);
+				//_sf.register('blue', BlueCircleBuilder);
+            }
+            function setStage(stg){
+                _stage = stg;
+            }
 
 			function create(left, top,type){
-				var circle = _cf.create(type);
+				var circle = _sf.create(type);
 				circle.move(left, top);
 				return circle;
 			}
@@ -102,8 +114,10 @@
 			}
 
 			return {index:index,
-							create:create,
-							add:add};
+					create:create,
+                    add:add,
+                    register:registerShape,
+                    setStage:setStage};
 		}
 
 		return {
@@ -119,8 +133,13 @@
 	})();
 
 	$(win.document).ready(function(){
+        var cg = CircleGeneratorSingleton.getInstance();
+        cg.register('red', RedCircleBuilder);
+        cg.register('blue', BlueCircleBuilder);
+        cg.setStage($('.advert'));
+
 		$('.advert').click(function(e){
-			var cg = CircleGeneratorSingleton.getInstance();
+			
 			var circle = cg.create(e.pageX-25, e.pageY-25,"red");
 
 			cg.add(circle);
@@ -129,10 +148,7 @@
 
 		$(document).keypress(function(e){
 			if(e.key=='a'){
-				var cg = CircleGeneratorSingleton.getInstance();
-				var circle = cg.create(Math.floor(Math.random()*600),
-															Math.floor(Math.random()*600),
-															"blue");
+				var circle = cg.create(Math.floor(Math.random()*600),Math.floor(Math.random()*600),"blue");
 				
 				cg.add(circle);
 			}
