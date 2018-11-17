@@ -1,6 +1,6 @@
-//check out how facade broke our application
-//create a way to unfacade
-//make our application work
+//see when a function/object as if it is another one 
+//check out the use of Proxy's control, influence, and monitor
+//Explore the gateways to the real objects
 (function(win, $){
 	function clone(src,out){
 		for(var attr in src.prototype){
@@ -222,7 +222,6 @@
 
 			flyWeightFader($(e.target));
 		});
-
 
 		$(document).keypress(function(e){
 			if(e.key==='q'){
