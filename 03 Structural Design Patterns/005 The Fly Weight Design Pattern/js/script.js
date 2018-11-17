@@ -75,7 +75,6 @@
 		return this.item;
 	};
 
-	
 	function BlueCircleBuilder(){
 		this.item = new Circle();
 
