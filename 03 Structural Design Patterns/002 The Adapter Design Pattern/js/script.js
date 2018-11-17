@@ -73,6 +73,23 @@
 			}
 	};
 
+	function StageAdapter(id){
+		this.index = 0;
+		this.context =$(id);
+		//this.SIG = 'stageItem_'; // replace here
+	}
+	StageAdapter.prototype.SIG = 'stageItem_';//delete this
+	
+	StageAdapter.prototype.add = function(item){
+		++this.index;
+		item.addClass(this.SIG + this.index);
+		this.context.append(item);
+	};
+
+	StageAdapter.prototype.remove = function(index){
+		this.context.remove('.'+ this.SIG + index);	
+	};
+
 
 	var CircleGeneratorSingleton = (function(){
 		var instance;
@@ -104,9 +121,9 @@
 			}
 
 			function add(circle){
-				_stage.append(circle.get());
+				_stage.add(circle.get());
 				_aCircle.push(circle);
-			}
+			} 
 
 			function index(){
 				return _aCircle.length;
@@ -135,7 +152,7 @@
         var cg = CircleGeneratorSingleton.getInstance();
         cg.register('red', RedCircleBuilder);
         cg.register('blue', BlueCircleBuilder);
-        cg.setStage($('.advert'));
+        cg.setStage(new StageAdapter('.advert'));
 
 		$('.advert').click(function(e){
 			
