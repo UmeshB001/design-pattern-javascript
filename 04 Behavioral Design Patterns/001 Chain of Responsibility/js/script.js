@@ -4,17 +4,18 @@
 //Decentralize logic making
 //Understand how each lick can be changed
 //Understand the creation of loop as well
-(function(win, $){ 
+(function(win, $){
+
 	function clone(src,out){
 		for(var attr in src.prototype){
 			out.prototype[attr] = src.prototype[attr];
 		}
 	}
+
 	function Circle(){
-		
 		this.item = $('<div class="circle"></div>');
-		
 	}
+
 	Circle.prototype.color = function(clr){
 		this.item.css('background', clr);
 	}
@@ -54,6 +55,8 @@
 		this.id= id;
 	};
 
+
+
 	function Rect(){
 		this.item = $('<div class="rect"></div>');
 	}
@@ -83,11 +86,11 @@
 		};
 	}
 
-
 	function RedCircleBuilder(){
 		this.item = new Circle();
 		this.init();
 	}
+	
 	RedCircleBuilder.prototype.init = function() {
 		//NOTHING
 	};
@@ -116,6 +119,7 @@
 		return this.item;
 	};	
 
+	//Factory Design Pattern
 	ShapeFactory = function(){
 			this.types = {};
 			this.create = function(type){
@@ -164,7 +168,7 @@
 		}
 	}
 
-
+	//Singleton design pattern
 	var CircleGeneratorSingleton = (function(){
 		var instance;
 
