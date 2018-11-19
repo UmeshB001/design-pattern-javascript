@@ -1,4 +1,10 @@
-(function(win, $){
+//Link objects to each other in chain 
+// Ensure  that there is no central control;each link 'desides' wheather to continue
+//Ascertain why this is ideal for complex animations that affects other objects
+//Decentralize logic making
+//Understand how each lick can be changed
+//Understand the creation of loop as well
+(function(win, $){ 
 	function clone(src,out){
 		for(var attr in src.prototype){
 			out.prototype[attr] = src.prototype[attr];
